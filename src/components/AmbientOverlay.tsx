@@ -50,7 +50,7 @@ export default function AmbientOverlay({ reducedMotion = false }: AmbientOverlay
             ରବିବାର ରେଡିଓ
           </h1>
           <span className="text-xs sm:text-base tracking-widest text-[#e6c594] font-semibold font-serif drop-shadow-md">
-            RAVIBARA RADIO
+            RABIBARA RADIO
           </span>
           <p className="text-[11px] sm:text-sm text-[#d4bca0] font-sans italic mt-0.5 sm:mt-1 drop-shadow opacity-90">
             A Sunday morning in Odisha, sometime in the 90s.

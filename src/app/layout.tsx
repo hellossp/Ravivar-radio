@@ -24,11 +24,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'ରବିବାର ରେଡିଓ | Ravibara Radio - 1990s Odisha Sunday Morning',
-  description: 'A nostalgic 1990s Odisha Sunday-morning music experience. Tune into evergreen 90s Hindi & Odia songs on an old radio outside a local barber shop.',
-  keywords: ['Ravibara Radio', 'Odisha Radio', 'Odia 90s Songs', 'Akshaya Mohanty', '90s Hindi Songs', 'Nostalgia Odisha', 'Odisha Barber Shop'],
+  title: 'ରବିବାର ରେଡିଓ | Rabibara Radio - 1990s Odisha Sunday Morning',
+  description: 'Step into a nostalgic 1990s Odisha Sunday morning barber shop memory. Listen to evergreen Odia and 90s Hindi classics from an old tape deck.',
+  keywords: ['Rabibara Radio', 'Odisha Radio', 'Odia 90s Songs', 'Akshaya Mohanty', '90s Hindi Songs', 'Nostalgia Odisha', 'Odisha Barber Shop'],
   openGraph: {
-    title: 'ରବିବାର ରେଡିଓ | Ravibara Radio',
+    title: 'ରବିବାର ରେଡିଓ | Rabibara Radio',
     description: 'A Sunday morning in Odisha, sometime in the 90s.',
     images: ['/barber-shop.jpg'],
   },

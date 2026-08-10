@@ -59,7 +59,7 @@ export default function Navigation({
       <button
         onClick={onOpenAbout}
         className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] text-xs font-mono transition-colors"
-        title="About Ravibara Radio (A)"
+        title="About Rabibara Radio (A)"
       >
         <Info className="w-3.5 h-3.5" />
         <span className="hidden sm:inline">ABOUT</span>

@@ -34,14 +34,14 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
             ରବିବାର ରେଡିଓ
           </h3>
           <p className="text-xs font-mono text-[#6b5545] tracking-widest uppercase mt-1">
-            RAVIBARA RADIO • ABOUT THE MEMORY
+            RABIBARA RADIO • ABOUT THE MEMORY
           </p>
         </div>
 
         {/* Core Poetic Text */}
         <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[#3a2d26] font-serif">
           <p className="text-justify">
-            Ravibara Radio is a small digital time machine built around the sounds, streets and Sunday mornings of 1990s Odisha.
+            Rabibara Radio is a small digital time machine built around the sounds, streets and Sunday mornings of 1990s Odisha.
           </p>
 
           <div className="my-6 p-4 bg-[#eae0ce] border-l-4 border-[#8c2318] rounded-r italic text-[#4a3528]">

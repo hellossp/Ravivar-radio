@@ -96,7 +96,7 @@ export default function CassettePlayer({
               <Radio className="w-3.5 h-3.5 text-[#f59e0b] animate-pulse drop-shadow-[0_0_6px_rgba(245,158,11,0.8)]" />
               <div className="flex flex-col">
                 <span className="font-bold text-xs sm:text-sm tracking-wider text-[#ffd59e] uppercase font-serif drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-                  ରବିବାର ରେଡିଓ • RAVIBARA
+                  ରବିବାର ରେଡିଓ • RABIBARA
                 </span>
                 <span className="text-[9px] text-[#e8c599] tracking-wider uppercase font-semibold drop-shadow-sm">
                   1997 Hi-Fi Stereo Teak Receiver
