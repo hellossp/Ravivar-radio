@@ -15,6 +15,7 @@ export default function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps)
     { key: 'Left Arrow', desc: 'Previous song' },
     { key: 'Right Arrow', desc: 'Next song' },
     { key: 'M', desc: 'Mute / Unmute audio' },
+    { key: 'F', desc: 'Toggle Fullscreen mode' },
     { key: 'P', desc: 'Open / Close Playlist' },
     { key: 'A', desc: 'Open / Close About Panel' },
     { key: 'Esc', desc: 'Close any open panel' },

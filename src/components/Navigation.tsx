@@ -1,6 +1,6 @@
 'use client';
 
-import { List, Info, Radio, Keyboard } from 'lucide-react';
+import { List, Info, Radio, Keyboard, Maximize2, Minimize2 } from 'lucide-react';
 
 interface NavigationProps {
   onOpenPlaylist: () => void;
@@ -8,6 +8,8 @@ interface NavigationProps {
   soundFxEnabled: boolean;
   onToggleSoundFx: () => void;
   onOpenShortcuts: () => void;
+  isFullscreen: boolean;
+  onToggleFullscreen: () => void;
 }
 
 export default function Navigation({
@@ -16,6 +18,8 @@ export default function Navigation({
   soundFxEnabled,
   onToggleSoundFx,
   onOpenShortcuts,
+  isFullscreen,
+  onToggleFullscreen,
 }: NavigationProps) {
   return (
     <nav 
@@ -44,6 +48,24 @@ export default function Navigation({
       >
         <Radio className="w-3.5 h-3.5 shrink-0" />
         <span className="whitespace-nowrap">{soundFxEnabled ? 'FX ON' : 'FX OFF'}</span>
+      </button>
+
+      {/* Fullscreen Mode Toggle */}
+      <button
+        onClick={onToggleFullscreen}
+        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+          isFullscreen
+            ? 'bg-[#382c24] border-[#d97724] text-[#d97724]'
+            : 'bg-[#261d17] hover:bg-[#382c24] border-[#423328] text-[#c7b39f] hover:text-[#f2e6cb]'
+        }`}
+        title={isFullscreen ? "Exit Fullscreen (F)" : "Enter Fullscreen (F)"}
+      >
+        {isFullscreen ? (
+          <Minimize2 className="w-3.5 h-3.5 shrink-0" />
+        ) : (
+          <Maximize2 className="w-3.5 h-3.5 shrink-0" />
+        )}
+        <span className="hidden md:inline whitespace-nowrap">{isFullscreen ? "EXIT FULL" : "FULLSCREEN"}</span>
       </button>
 
       {/* Keyboard Shortcuts */}

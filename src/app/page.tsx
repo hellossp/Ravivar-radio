@@ -33,6 +33,37 @@ export default function Home() {
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [soundFxEnabled, setSoundFxEnabled] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Fullscreen event listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const handleToggleFullscreen = () => {
+    if (soundFxEnabled) playCassetteClick();
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else if ((document.documentElement as any).webkitRequestFullscreen) {
+        (document.documentElement as any).webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      }
+    }
+  };
 
   // Check prefers-reduced-motion
   useEffect(() => {
@@ -146,6 +177,10 @@ export default function Home() {
           e.preventDefault();
           handleToggleMute();
           break;
+        case 'KeyF':
+          e.preventDefault();
+          handleToggleFullscreen();
+          break;
         case 'KeyP':
           e.preventDefault();
           if (soundFxEnabled) playCassetteClick();
@@ -169,7 +204,7 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, isPlaying, soundFxEnabled]);
+  }, [currentIndex, isPlaying, soundFxEnabled, isFullscreen]);
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-[#0d0a08] select-none font-sans text-slate-100">
@@ -207,6 +242,8 @@ export default function Home() {
           setSoundFxEnabled((prev) => !prev);
         }}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={handleToggleFullscreen}
       />
 
       {/* 5. MAIN CASSETTE / RADIO PLAYER OVERLAY */}
