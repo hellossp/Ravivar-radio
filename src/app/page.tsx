@@ -191,26 +191,25 @@ export default function Home() {
       {/* 3. AMBIENT OVERLAY (Top-Left Title, Top-Right Timestamp, Floating Notes) */}
       <AmbientOverlay reducedMotion={reducedMotion} />
 
-      {/* 4. TOP NAVIGATION CONTROL BAR */}
-      <Navigation
-        onOpenPlaylist={() => {
-          if (soundFxEnabled) playCassetteClick();
-          setIsPlaylistOpen(true);
-        }}
-        onOpenAbout={() => {
-          if (soundFxEnabled) playCassetteClick();
-          setIsAboutOpen(true);
-        }}
-        soundFxEnabled={soundFxEnabled}
-        onToggleSoundFx={() => {
-          if (soundFxEnabled) playStaticBurst();
-          setSoundFxEnabled((prev) => !prev);
-        }}
-        onOpenShortcuts={() => setIsShortcutsOpen(true)}
-      />
+      {/* 4 & 5. MAIN CASSETTE / RADIO PLAYER CONSOLE OVERLAY */}
+      <div className="fixed bottom-2.5 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:bottom-6 sm:left-8 z-30 pointer-events-auto w-[calc(100vw-1.25rem)] sm:w-full max-w-[440px] sm:max-w-lg flex flex-col items-center sm:items-start gap-2">
+        <Navigation
+          onOpenPlaylist={() => {
+            if (soundFxEnabled) playCassetteClick();
+            setIsPlaylistOpen(true);
+          }}
+          onOpenAbout={() => {
+            if (soundFxEnabled) playCassetteClick();
+            setIsAboutOpen(true);
+          }}
+          soundFxEnabled={soundFxEnabled}
+          onToggleSoundFx={() => {
+            if (soundFxEnabled) playStaticBurst();
+            setSoundFxEnabled((prev) => !prev);
+          }}
+          onOpenShortcuts={() => setIsShortcutsOpen(true)}
+        />
 
-      {/* 5. MAIN CASSETTE / RADIO PLAYER OVERLAY */}
-      <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-6 sm:left-8 sm:right-auto z-30 pointer-events-auto max-w-[440px] sm:max-w-lg">
         <CassettePlayer
           currentSong={currentSong}
           isPlaying={isPlaying}
