@@ -21,9 +21,9 @@ export default function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps)
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-[2px] animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-[2px] animate-fadeIn">
       <div 
-        className="relative w-full max-w-md bg-[#f5ede0] text-[#2c221e] rounded p-6 border-4 border-[#8c7355] shadow-2xl font-serif select-none"
+        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#f5ede0] text-[#2c221e] rounded p-5 sm:p-6 border-4 border-[#8c7355] shadow-2xl font-serif select-none"
         style={{
           backgroundImage: 'radial-gradient(#e5d8b8 1px, transparent 1px)',
           backgroundSize: '20px 20px',

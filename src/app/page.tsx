@@ -210,7 +210,7 @@ export default function Home() {
       />
 
       {/* 5. MAIN CASSETTE / RADIO PLAYER OVERLAY */}
-      <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-8 z-30 pointer-events-auto max-w-lg">
+      <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-6 sm:left-8 sm:right-auto z-30 pointer-events-auto max-w-[440px] sm:max-w-lg">
         <CassettePlayer
           currentSong={currentSong}
           isPlaying={isPlaying}
