@@ -20,36 +20,36 @@ export default function Navigation({
   return (
     <nav 
       aria-label="Radio Navigation" 
-      className="z-40 flex items-center justify-center gap-1 sm:gap-2 bg-[#1b140f]/95 border border-[#594637] p-1 sm:p-1.5 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.9)] select-none w-fit mx-auto sm:fixed sm:top-4 sm:left-1/2 sm:-translate-x-1/2 backdrop-blur-md shrink-0"
+      className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center gap-1.5 sm:gap-2 bg-[#1f1915]/90 border border-[#594637] p-1.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] select-none whitespace-nowrap backdrop-blur-sm"
     >
       {/* Open Playlist Button */}
       <button
         onClick={onOpenPlaylist}
-        className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#382c24] hover:bg-[#4d3d32] text-[#e8d7c3] text-[11px] sm:text-xs font-mono tracking-wider transition-all border border-[#695444] active:scale-95 shadow-sm"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#382c24] hover:bg-[#4d3d32] text-[#e8d7c3] text-xs font-mono tracking-wider transition-colors border border-[#695444] whitespace-nowrap"
         title="Open Playlist (P)"
       >
-        <List className="w-3.5 h-3.5 text-[#f59e0b] shrink-0" />
-        <span>PLAYLIST</span>
+        <List className="w-3.5 h-3.5 text-[#d97724] shrink-0" />
+        <span className="whitespace-nowrap">PLAYLIST</span>
       </button>
 
       {/* Toggle Audio Static / Tactile FX */}
       <button
         onClick={onToggleSoundFx}
-        className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-mono transition-all border active:scale-95 shadow-sm ${
+        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
           soundFxEnabled
-            ? 'bg-[#382c24] border-[#f59e0b] text-[#f59e0b]'
+            ? 'bg-[#382c24] border-[#d97724] text-[#d97724]'
             : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
         }`}
         title="Toggle Tactile Sound Effects"
       >
         <Radio className="w-3.5 h-3.5 shrink-0" />
-        <span>{soundFxEnabled ? 'FX ON' : 'FX OFF'}</span>
+        <span className="whitespace-nowrap">{soundFxEnabled ? 'FX ON' : 'FX OFF'}</span>
       </button>
 
       {/* Keyboard Shortcuts */}
       <button
         onClick={onOpenShortcuts}
-        className="p-1 sm:p-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] transition-all active:scale-95 shadow-sm"
+        className="p-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] transition-colors shrink-0"
         title="Keyboard Shortcuts"
       >
         <Keyboard className="w-3.5 h-3.5 shrink-0" />
@@ -58,11 +58,11 @@ export default function Navigation({
       {/* About Button */}
       <button
         onClick={onOpenAbout}
-        className="flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] text-[11px] sm:text-xs font-mono transition-all active:scale-95 shadow-sm"
+        className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] text-xs font-mono transition-colors whitespace-nowrap"
         title="About Rabibara Radio (A)"
       >
         <Info className="w-3.5 h-3.5 shrink-0" />
-        <span>ABOUT</span>
+        <span className="whitespace-nowrap">ABOUT</span>
       </button>
     </nav>
   );
