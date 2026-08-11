@@ -32,9 +32,9 @@ export default function Navigation({
   return (
     <nav 
       aria-label="Radio Navigation" 
-      className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center gap-1.5 sm:gap-2 bg-[#1f1915]/90 border border-[#594637] p-1.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] select-none whitespace-nowrap backdrop-blur-sm"
+      className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center gap-1.5 sm:gap-2 bg-[#1f1915]/90 border border-[#594637] p-1.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] select-none whitespace-nowrap backdrop-blur-sm transition-all"
     >
-      {/* Open Playlist Button */}
+      {/* 1. Open Playlist Button (Always Visible) */}
       <button
         onClick={onOpenPlaylist}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#382c24] hover:bg-[#4d3d32] text-[#e8d7c3] text-xs font-mono tracking-wider transition-colors border border-[#695444] whitespace-nowrap"
@@ -44,49 +44,55 @@ export default function Navigation({
         <span className="whitespace-nowrap">PLAYLIST</span>
       </button>
 
-      {/* Barber Shop Scissors & Massage ASMR Ambiance Toggle */}
-      <button
-        onClick={onToggleAmbiance}
-        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
-          isAmbianceEnabled
-            ? 'bg-[#382c24] border-amber-500 text-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
-            : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
-        }`}
-        title="Toggle Barber Shop Scissors & Massage ASMR Ambiance"
-      >
-        <Coffee className="w-3.5 h-3.5 shrink-0" />
-        <span className="whitespace-nowrap">{isAmbianceEnabled ? 'AMBIANCE ON' : 'AMBIANCE OFF'}</span>
-      </button>
+      {/* 2. Barber Shop Scissors & Massage ASMR Ambiance Toggle (Hidden in Fullscreen) */}
+      {!isFullscreen && (
+        <button
+          onClick={onToggleAmbiance}
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+            isAmbianceEnabled
+              ? 'bg-[#382c24] border-amber-500 text-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+              : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
+          }`}
+          title="Toggle Barber Shop Scissors & Massage ASMR Ambiance"
+        >
+          <Coffee className="w-3.5 h-3.5 shrink-0" />
+          <span className="whitespace-nowrap">{isAmbianceEnabled ? 'AMBIANCE ON' : 'AMBIANCE OFF'}</span>
+        </button>
+      )}
 
-      {/* Monsoon Rain Window Overlay Toggle */}
-      <button
-        onClick={onToggleRain}
-        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
-          isRainEnabled
-            ? 'bg-[#382c24] border-blue-400 text-blue-300 font-bold shadow-[0_0_8px_rgba(96,165,250,0.4)]'
-            : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
-        }`}
-        title="Toggle 90s Monsoon Rainy Sunday Window"
-      >
-        <CloudRain className="w-3.5 h-3.5 shrink-0" />
-        <span className="whitespace-nowrap">{isRainEnabled ? 'RAIN ON' : 'RAIN OFF'}</span>
-      </button>
+      {/* 3. Monsoon Rain Window Overlay Toggle (Hidden in Fullscreen) */}
+      {!isFullscreen && (
+        <button
+          onClick={onToggleRain}
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+            isRainEnabled
+              ? 'bg-[#382c24] border-blue-400 text-blue-300 font-bold shadow-[0_0_8px_rgba(96,165,250,0.4)]'
+              : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
+          }`}
+          title="Toggle 90s Monsoon Rainy Sunday Window"
+        >
+          <CloudRain className="w-3.5 h-3.5 shrink-0" />
+          <span className="whitespace-nowrap">{isRainEnabled ? 'RAIN ON' : 'RAIN OFF'}</span>
+        </button>
+      )}
 
-      {/* Toggle Audio Static / Tactile FX */}
-      <button
-        onClick={onToggleSoundFx}
-        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
-          soundFxEnabled
-            ? 'bg-[#382c24] border-[#d97724] text-[#d97724]'
-            : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
-        }`}
-        title="Toggle Tactile Sound Effects"
-      >
-        <Radio className="w-3.5 h-3.5 shrink-0" />
-        <span className="whitespace-nowrap">{soundFxEnabled ? 'FX ON' : 'FX OFF'}</span>
-      </button>
+      {/* 4. Toggle Audio Static / Tactile FX (Hidden in Fullscreen) */}
+      {!isFullscreen && (
+        <button
+          onClick={onToggleSoundFx}
+          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+            soundFxEnabled
+              ? 'bg-[#382c24] border-[#d97724] text-[#d97724]'
+              : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
+          }`}
+          title="Toggle Tactile Sound Effects"
+        >
+          <Radio className="w-3.5 h-3.5 shrink-0" />
+          <span className="whitespace-nowrap">{soundFxEnabled ? 'FX ON' : 'FX OFF'}</span>
+        </button>
+      )}
 
-      {/* Fullscreen Mode Toggle */}
+      {/* 5. Fullscreen Mode Toggle (Always Visible) */}
       <button
         onClick={onToggleFullscreen}
         className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
@@ -101,10 +107,10 @@ export default function Navigation({
         ) : (
           <Maximize2 className="w-3.5 h-3.5 shrink-0" />
         )}
-        <span className="hidden md:inline whitespace-nowrap">{isFullscreen ? "EXIT FULL" : "FULLSCREEN"}</span>
+        <span className="whitespace-nowrap">{isFullscreen ? "EXIT FULL" : "FULLSCREEN"}</span>
       </button>
 
-      {/* Keyboard Shortcuts */}
+      {/* 6. Keyboard Shortcuts Button (Always Visible) */}
       <button
         onClick={onOpenShortcuts}
         className="p-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] transition-colors shrink-0"
@@ -113,15 +119,17 @@ export default function Navigation({
         <Keyboard className="w-3.5 h-3.5 shrink-0" />
       </button>
 
-      {/* About Button */}
-      <button
-        onClick={onOpenAbout}
-        className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] text-xs font-mono transition-colors whitespace-nowrap"
-        title="About Rabibara Radio (A)"
-      >
-        <Info className="w-3.5 h-3.5 shrink-0" />
-        <span className="whitespace-nowrap">ABOUT</span>
-      </button>
+      {/* 7. About Button (Hidden in Fullscreen) */}
+      {!isFullscreen && (
+        <button
+          onClick={onOpenAbout}
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#261d17] hover:bg-[#382c24] text-[#c7b39f] hover:text-[#f2e6cb] border border-[#423328] text-xs font-mono transition-colors whitespace-nowrap"
+          title="About Rabibara Radio (A)"
+        >
+          <Info className="w-3.5 h-3.5 shrink-0" />
+          <span className="whitespace-nowrap">ABOUT</span>
+        </button>
+      )}
     </nav>
   );
 }
