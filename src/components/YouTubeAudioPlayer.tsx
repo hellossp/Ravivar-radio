@@ -45,6 +45,7 @@ export default function YouTubeAudioPlayer({
   const isSwitchingTrackRef = useRef<boolean>(false);
   const lastLoadedSongIdRef = useRef<string | null>(null);
   const isAudioUnlockedRef = useRef<boolean>(false);
+  const lastEndedTimestampRef = useRef<number>(0);
 
   // Load YouTube IFrame API once with reliable initialization polling
   useEffect(() => {
@@ -176,11 +177,14 @@ export default function YouTubeAudioPlayer({
                 }
               }
             } else if (state === window.YT.PlayerState.ENDED) {
-              // Guard: Ignore ENDED event fired during track unloading/switching
-              if (isSwitchingTrackRef.current) {
-                console.log("Ignoring YouTube ENDED event during track switch");
+              // Guard: Ignore ENDED event fired during track unloading/switching or duplicate events
+              const now = Date.now();
+              if (isSwitchingTrackRef.current || (now - lastEndedTimestampRef.current < 2000)) {
+                console.log("Ignoring duplicate or track-switch YouTube ENDED event");
                 return;
               }
+              lastEndedTimestampRef.current = now;
+              isSwitchingTrackRef.current = true;
               onPlayingStateChange(false);
               stopTimer();
               onEnded();

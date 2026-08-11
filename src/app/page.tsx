@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { SONGS, Song, CategoryType } from '@/data/songs';
 import YouTubeAudioPlayer from '@/components/YouTubeAudioPlayer';
@@ -126,12 +126,23 @@ export default function Home() {
     return filteredSongs.length > 0 ? filteredSongs : SONGS;
   }, [filteredSongs]);
 
-  // Current Song Index in active songs list
+  const currentSongRef = useRef<Song | null>(currentSong);
+  const repeatModeRef = useRef<'OFF' | 'ALL' | 'ONE'>(repeatMode);
+
+  useEffect(() => {
+    currentSongRef.current = currentSong;
+  }, [currentSong]);
+
+  useEffect(() => {
+    repeatModeRef.current = repeatMode;
+  }, [repeatMode]);
+
+  // Current Song Index in master SONGS list (100% sequential id-wise progression)
   const currentIndex = useMemo(() => {
     if (!currentSong) return 0;
-    const idx = activeSongs.findIndex((s) => s.id === currentSong.id);
+    const idx = SONGS.findIndex((s) => s.id === currentSong.id);
     return idx >= 0 ? idx : 0;
-  }, [currentSong, activeSongs]);
+  }, [currentSong]);
 
   // Handlers
   const handleTogglePlay = () => {
@@ -186,26 +197,35 @@ export default function Home() {
 
   const handleNextSong = () => {
     if (soundFxEnabled) playRadioDialClick();
-    const nextIdx = (currentIndex + 1) % activeSongs.length;
-    setCurrentSong(activeSongs[nextIdx]);
+    const active = currentSongRef.current || SONGS[0];
+    const curIdx = SONGS.findIndex((s) => s.id === active.id);
+    const safeIdx = curIdx >= 0 ? curIdx : 0;
+    const nextIdx = (safeIdx + 1) % SONGS.length;
+    setCurrentSong(SONGS[nextIdx]);
     setIsPlaying(true);
   };
 
   const handlePrevSong = () => {
     if (soundFxEnabled) playRadioDialClick();
-    const prevIdx = (currentIndex - 1 + activeSongs.length) % activeSongs.length;
-    setCurrentSong(activeSongs[prevIdx]);
+    const active = currentSongRef.current || SONGS[0];
+    const curIdx = SONGS.findIndex((s) => s.id === active.id);
+    const safeIdx = curIdx >= 0 ? curIdx : 0;
+    const prevIdx = (safeIdx - 1 + SONGS.length) % SONGS.length;
+    setCurrentSong(SONGS[prevIdx]);
     setIsPlaying(true);
   };
 
   const handleEnded = () => {
-    if (repeatMode === 'ONE') {
+    if (repeatModeRef.current === 'ONE') {
       setSeekTime(0);
       setIsPlaying(true);
       return;
     }
-    const nextIdx = (currentIndex + 1) % activeSongs.length;
-    setCurrentSong(activeSongs[nextIdx]);
+    const active = currentSongRef.current || SONGS[0];
+    const curIdx = SONGS.findIndex((s) => s.id === active.id);
+    const safeIdx = curIdx >= 0 ? curIdx : 0;
+    const nextIdx = (safeIdx + 1) % SONGS.length;
+    setCurrentSong(SONGS[nextIdx]);
     setIsPlaying(true);
   };
 
