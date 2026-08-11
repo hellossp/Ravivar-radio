@@ -12,6 +12,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Navigation from '@/components/Navigation';
 import ShortcutsModal from '@/components/ShortcutsModal';
 import CustomTrackModal from '@/components/CustomTrackModal';
+import ToastContainer, { ToastMessage } from '@/components/ToastContainer';
 import { playCassetteClick, playRadioDialClick, playStaticBurst } from '@/utils/audioSynth';
 
 export default function Home() {
@@ -28,7 +29,8 @@ export default function Home() {
   
   const [seekTime, setSeekTime] = useState<number | null>(null);
   
-  // UI Overlays
+  // UI Overlays & Toasts
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
@@ -36,6 +38,22 @@ export default function Home() {
   const [soundFxEnabled, setSoundFxEnabled] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const showToast = (
+    message: string,
+    type: 'info' | 'warning' | 'error' | 'success' = 'info',
+    title?: string,
+    actionText?: string,
+    onAction?: () => void
+  ) => {
+    const id = Math.random().toString(36).substring(2, 9);
+    const newToast: ToastMessage = { id, type, title, message, actionText, onAction };
+    setToasts((prev) => [...prev.slice(-2), newToast]);
+
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4500);
+  };
 
   // Fullscreen event listener
   useEffect(() => {
@@ -284,9 +302,16 @@ export default function Home() {
         onDuration={setDuration}
         onPlayingStateChange={setIsPlaying}
         onErrorNext={handleNextSong}
+        onShowToast={showToast}
       />
 
-      {/* 7. MODALS & OVERLAYS */}
+      {/* 7. TOAST NOTIFICATIONS OVERLAY */}
+      <ToastContainer
+        toasts={toasts}
+        onDismiss={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))}
+      />
+
+      {/* 8. MODALS & OVERLAYS */}
       <PlaylistPanel
         isOpen={isPlaylistOpen}
         onClose={() => setIsPlaylistOpen(false)}
