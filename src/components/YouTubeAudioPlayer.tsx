@@ -38,108 +38,148 @@ export default function YouTubeAudioPlayer({
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const initCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isReadyRef = useRef<boolean>(false);
   const isSwitchingTrackRef = useRef<boolean>(false);
+  const lastLoadedSongIdRef = useRef<string | null>(null);
 
-  // Load YouTube IFrame API once
+  // Load YouTube IFrame API once with reliable initialization polling
   useEffect(() => {
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-      return;
+    const checkAndInit = () => {
+      if (playerRef.current) {
+        if (initCheckIntervalRef.current) clearInterval(initCheckIntervalRef.current);
+        return;
+      }
+      if (window.YT && window.YT.Player && containerRef.current) {
+        initPlayer();
+        if (initCheckIntervalRef.current) clearInterval(initCheckIntervalRef.current);
+      }
+    };
+
+    // If script isn't added yet, inject it
+    if (!document.getElementById('youtube-iframe-api')) {
+      const tag = document.createElement('script');
+      tag.id = 'youtube-iframe-api';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
     }
 
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
+    // Set callback
     window.onYouTubeIframeAPIReady = () => {
-      initPlayer();
+      checkAndInit();
     };
+
+    // Start polling in case containerRef or window.YT is ready slightly later
+    initCheckIntervalRef.current = setInterval(checkAndInit, 250);
 
     return () => {
       if (timeIntervalRef.current) clearInterval(timeIntervalRef.current);
+      if (initCheckIntervalRef.current) clearInterval(initCheckIntervalRef.current);
     };
   }, []);
 
   const initPlayer = () => {
     if (!containerRef.current || playerRef.current) return;
 
-    playerRef.current = new window.YT.Player(containerRef.current, {
-      height: '200',
-      width: '200',
-      videoId: currentSong?.youtubeId || '',
-      playerVars: {
-        autoplay: 1,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        rel: 0,
-        modestbranding: 1,
-        playsinline: 1,
-        enablejsapi: 1,
-        origin: typeof window !== 'undefined' ? window.location.origin : '',
-      },
-      events: {
-        onReady: (event: any) => {
-          isReadyRef.current = true;
-          event.target.setVolume(isMuted ? 0 : volume);
-          if (currentSong) {
-            try {
-              isSwitchingTrackRef.current = true;
-              event.target.loadVideoById(currentSong.youtubeId, 0);
-              if (isPlaying) {
-                event.target.playVideo();
+    try {
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        height: '200',
+        width: '200',
+        videoId: currentSong?.youtubeId || '',
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          enablejsapi: 1,
+          origin: typeof window !== 'undefined' ? window.location.origin : '',
+        },
+        events: {
+          onReady: (event: any) => {
+            isReadyRef.current = true;
+            event.target.setVolume(isMuted ? 0 : volume);
+            if (currentSong) {
+              try {
+                isSwitchingTrackRef.current = true;
+                lastLoadedSongIdRef.current = currentSong.id;
+                event.target.loadVideoById(currentSong.youtubeId, 0);
+                if (isPlaying) {
+                  event.target.playVideo();
+                }
+              } catch (e) {
+                console.warn("YouTube onReady load error:", e);
+                isSwitchingTrackRef.current = false;
               }
-            } catch (e) {
-              console.warn("YouTube onReady error:", e);
+            }
+          },
+          onStateChange: (event: any) => {
+            // YT.PlayerState: ENDED (0), PLAYING (1), PAUSED (2), BUFFERING (3), CUED (5)
+            const state = event.data;
+
+            if (state === window.YT.PlayerState.PLAYING) {
               isSwitchingTrackRef.current = false;
+              onPlayingStateChange(true);
+              if (playerRef.current?.getDuration) {
+                onDuration(playerRef.current.getDuration());
+              }
+              startTimer();
+            } else if (state === window.YT.PlayerState.PAUSED) {
+              onPlayingStateChange(false);
+              stopTimer();
+            } else if (state === window.YT.PlayerState.CUED) {
+              // If cued and should be playing, attempt to play (helps mobile browsers)
+              if (isPlaying && playerRef.current?.playVideo) {
+                try {
+                  playerRef.current.playVideo();
+                } catch (e) {
+                  // Catch browser interaction restrictions
+                }
+              }
+            } else if (state === window.YT.PlayerState.ENDED) {
+              // Guard: Ignore ENDED event fired during track unloading/switching
+              if (isSwitchingTrackRef.current) {
+                console.log("Ignoring YouTube ENDED event during track switch");
+                return;
+              }
+              onPlayingStateChange(false);
+              stopTimer();
+              onEnded();
             }
-          }
-        },
-        onStateChange: (event: any) => {
-          // YT.PlayerState: ENDED (0), PLAYING (1), PAUSED (2), BUFFERING (3)
-          if (event.data === window.YT.PlayerState.PLAYING) {
+          },
+          onError: (err: any) => {
+            console.warn("YouTube player error (code " + err?.data + ") on track:", currentSong?.title);
+            stopTimer();
             isSwitchingTrackRef.current = false;
-            onPlayingStateChange(true);
-            if (playerRef.current?.getDuration) {
-              onDuration(playerRef.current.getDuration());
+            // Error 2 (invalid param), 100 (not found), 101/150 (embed disabled) -> skip to next track
+            if ([2, 5, 100, 101, 150].includes(err?.data)) {
+              setTimeout(() => {
+                onErrorNext();
+              }, 600);
             }
-            startTimer();
-          } else if (event.data === window.YT.PlayerState.PAUSED) {
-            onPlayingStateChange(false);
-            stopTimer();
-          } else if (event.data === window.YT.PlayerState.ENDED) {
-            // Guard: Ignore ENDED event fired during track unloading/switching
-            if (isSwitchingTrackRef.current) {
-              console.log("Ignoring YouTube ENDED event during track switch");
-              return;
-            }
-            onPlayingStateChange(false);
-            stopTimer();
-            onEnded();
-          }
+          },
         },
-        onError: (err: any) => {
-          console.warn("YouTube player error (code " + err?.data + ") on track:", currentSong?.title);
-          stopTimer();
-          isSwitchingTrackRef.current = false;
-          // Error 2 (invalid param), 100 (not found), 101/150 (embed disabled) -> skip to next track
-          if ([2, 100, 101, 150].includes(err?.data)) {
-            setTimeout(() => {
-              onErrorNext();
-            }, 800);
-          }
-        },
-      },
-    });
+      });
+    } catch (err) {
+      console.warn("Error instantiating YT.Player:", err);
+    }
   };
 
   const startTimer = () => {
     if (timeIntervalRef.current) clearInterval(timeIntervalRef.current);
     timeIntervalRef.current = setInterval(() => {
       if (playerRef.current && playerRef.current.getCurrentTime) {
-        onTimeUpdate(playerRef.current.getCurrentTime());
+        try {
+          const t = playerRef.current.getCurrentTime();
+          if (typeof t === 'number' && !isNaN(t)) {
+            onTimeUpdate(t);
+          }
+        } catch (e) {
+          // Ignore polling errors
+        }
       }
     }, 400);
   };
@@ -154,11 +194,14 @@ export default function YouTubeAudioPlayer({
   // Load new song when currentSong changes
   useEffect(() => {
     if (!playerRef.current || !currentSong || !isReadyRef.current) return;
+    if (lastLoadedSongIdRef.current === currentSong.id) return;
+
     try {
       if (playerRef.current.loadVideoById) {
         isSwitchingTrackRef.current = true;
+        lastLoadedSongIdRef.current = currentSong.id;
         playerRef.current.loadVideoById(currentSong.youtubeId, 0);
-        if (isPlaying) {
+        if (isPlaying && playerRef.current.playVideo) {
           playerRef.current.playVideo();
         }
       }
@@ -166,7 +209,7 @@ export default function YouTubeAudioPlayer({
       console.warn("Error changing video:", e);
       isSwitchingTrackRef.current = false;
     }
-  }, [currentSong?.id, currentSong?.youtubeId]);
+  }, [currentSong?.id, currentSong?.youtubeId, isPlaying]);
 
   // Handle Play/Pause toggle
   useEffect(() => {
@@ -178,14 +221,18 @@ export default function YouTubeAudioPlayer({
         playerRef.current.pauseVideo();
       }
     } catch (e) {
-      // Ignore initial state errors
+      // Catch autoplay policy restrictions
     }
   }, [isPlaying]);
 
   // Handle volume changes
   useEffect(() => {
     if (!playerRef.current || !playerRef.current.setVolume || !isReadyRef.current) return;
-    playerRef.current.setVolume(isMuted ? 0 : volume);
+    try {
+      playerRef.current.setVolume(isMuted ? 0 : volume);
+    } catch (e) {
+      // Ignore initial volume errors
+    }
   }, [volume, isMuted]);
 
   // Handle Seeking / Scrubbing to specific time
