@@ -8,6 +8,7 @@ export interface Song {
   youtubeId: string; // YouTube Video ID for real playback
   album?: string;
   duration?: string;
+  badge?: string;
 }
 
 export const CATEGORIES = ['ALL', 'ODIA', 'HINDI', 'ROMANTIC', 'SAD', '90s CLASSICS'] as const;
@@ -92,7 +93,52 @@ export const SONGS: Song[] = [
     "id": "odia-07"
   },
   {
-    "id": "odia-08",
+    "title": "Mayuri Go Tama Akasha Mu",
+    "artist": "Mohammed Rafi",
+    "year": 1967,
+    "language": "ODIA",
+    "category": "ROMANTIC",
+    "youtubeId": "Q8stEi8yQIQ",
+    "album": "Arundhati",
+    "duration": "04:15",
+    "badge": "Developer's Mom Favorite ❤️",
+    "id": "odia-08"
+  },
+  {
+    "title": "E Banara Chai",
+    "artist": "Amit Kumar & Suman Kalyanpur",
+    "year": 1976,
+    "language": "ODIA",
+    "category": "90s CLASSICS",
+    "youtubeId": "IeHoRrhbZnc",
+    "album": "Gapa Helebi Sata",
+    "duration": "04:30",
+    "id": "odia-09"
+  },
+  {
+    "title": "Dura Akasara Janha Tia",
+    "artist": "Babushan Mohanty",
+    "year": 2012,
+    "language": "ODIA",
+    "category": "SAD",
+    "youtubeId": "H6bJkTldxMU",
+    "album": "Dura Akasa Ra Janha",
+    "duration": "04:55",
+    "id": "odia-10"
+  },
+  {
+    "title": "Kichi Bata Chali",
+    "artist": "Tapu Mishra & Babushan",
+    "year": 2011,
+    "language": "ODIA",
+    "category": "ROMANTIC",
+    "youtubeId": "96R-p8_SIQE",
+    "album": "Chocolate",
+    "duration": "05:05",
+    "id": "odia-11"
+  },
+  {
+    "id": "odia-12",
     "title": "Jaare Bhasi Bhasi Ja Nauka Mor",
     "artist": "Akshaya Mohanty",
     "year": 1978,
@@ -103,7 +149,7 @@ export const SONGS: Song[] = [
     "duration": "09:18"
   },
   {
-    "id": "odia-09",
+    "id": "odia-13",
     "title": "Hrudayara Ei Sunyataku",
     "artist": "Subas Das",
     "year": 1993,
@@ -114,7 +160,7 @@ export const SONGS: Song[] = [
     "duration": "05:04"
   },
   {
-    "id": "odia-10",
+    "id": "odia-14",
     "title": "Phur Kina Udi Gala Bani",
     "artist": "Trupti Das & Gita Pattnaik",
     "year": 1975,
@@ -125,7 +171,7 @@ export const SONGS: Song[] = [
     "duration": "04:49"
   },
   {
-    "id": "odia-11",
+    "id": "odia-15",
     "title": "Eije Bana Lata Pahada",
     "artist": "Akshaya Mohanty",
     "year": 1982,
@@ -136,7 +182,7 @@ export const SONGS: Song[] = [
     "duration": "05:54"
   },
   {
-    "id": "odia-12",
+    "id": "odia-16",
     "title": "E Duniya Re Kehi Na Kehi",
     "artist": "Akshaya Mohanty & Gita Pattnaik",
     "year": 1975,
@@ -147,7 +193,7 @@ export const SONGS: Song[] = [
     "duration": "04:42"
   },
   {
-    "id": "odia-13",
+    "id": "odia-17",
     "title": "Emiti Rati Seje Abhula Smriti",
     "artist": "Chitta Jena",
     "year": 1985,
@@ -158,7 +204,7 @@ export const SONGS: Song[] = [
     "duration": "04:13"
   },
   {
-    "id": "odia-14",
+    "id": "odia-18",
     "title": "Jajabara Theme Song",
     "artist": "Akshaya Mohanty",
     "year": 1975,
@@ -169,7 +215,7 @@ export const SONGS: Song[] = [
     "duration": "06:31"
   },
   {
-    "id": "odia-15",
+    "id": "odia-19",
     "title": "Jhia Dekhili Tiniti",
     "artist": "Akshaya Mohanty",
     "year": 1980,
@@ -180,7 +226,7 @@ export const SONGS: Song[] = [
     "duration": "03:21"
   },
   {
-    "id": "odia-16",
+    "id": "odia-20",
     "title": "E Parabata Kunchi Kunchika",
     "artist": "Chitta Jena",
     "year": 1984,
@@ -191,7 +237,7 @@ export const SONGS: Song[] = [
     "duration": "04:12"
   },
   {
-    "id": "odia-17",
+    "id": "odia-21",
     "title": "Sathire Mun Je Janena Kaha",
     "artist": "Akshaya Mohanty",
     "year": 1988,
@@ -202,7 +248,7 @@ export const SONGS: Song[] = [
     "duration": "05:55"
   },
   {
-    "id": "odia-18",
+    "id": "odia-22",
     "title": "Sapana Ra Pathe Pathe",
     "artist": "Pranab Patnaik",
     "year": 1986,
@@ -213,7 +259,7 @@ export const SONGS: Song[] = [
     "duration": "04:06"
   },
   {
-    "id": "odia-19",
+    "id": "odia-23",
     "title": "Mo Priya Tharu Kehi Sundara",
     "artist": "Chitta Jena",
     "year": 1976,
@@ -224,7 +270,7 @@ export const SONGS: Song[] = [
     "duration": "04:32"
   },
   {
-    "id": "odia-20",
+    "id": "odia-24",
     "title": "Nida Bhara Rati",
     "artist": "Akshaya Mohanty",
     "year": 1982,
@@ -235,7 +281,7 @@ export const SONGS: Song[] = [
     "duration": "03:07"
   },
   {
-    "id": "odia-21",
+    "id": "odia-25",
     "title": "Mo Priya Tharu Kie Sundara",
     "artist": "Chitta Jena",
     "year": 1976,
@@ -246,7 +292,7 @@ export const SONGS: Song[] = [
     "duration": "04:08"
   },
   {
-    "id": "odia-22",
+    "id": "odia-26",
     "title": "Re Atman Nidra Parihari",
     "artist": "Pranab Patnaik",
     "year": 1975,
@@ -257,7 +303,7 @@ export const SONGS: Song[] = [
     "duration": "03:14"
   },
   {
-    "id": "odia-23",
+    "id": "odia-27",
     "title": "Gadi Chale Pachhei",
     "artist": "Akshaya Mohanty & Trupti Das",
     "year": 1975,
@@ -268,7 +314,7 @@ export const SONGS: Song[] = [
     "duration": "05:01"
   },
   {
-    "id": "odia-24",
+    "id": "odia-28",
     "title": "Na Jare Naja Gori Bali Jatara",
     "artist": "Chitta Jena",
     "year": 1983,
@@ -279,7 +325,7 @@ export const SONGS: Song[] = [
     "duration": "02:42"
   },
   {
-    "id": "odia-25",
+    "id": "odia-29",
     "title": "Kehi Na Kehi Nije Sahe",
     "artist": "Akshaya Mohanty",
     "year": 1975,
@@ -290,7 +336,7 @@ export const SONGS: Song[] = [
     "duration": "03:02"
   },
   {
-    "id": "odia-26",
+    "id": "odia-30",
     "title": "Na Jaa Radhika",
     "artist": "Raghunath Panigrahi",
     "year": 1976,
@@ -301,7 +347,7 @@ export const SONGS: Song[] = [
     "duration": "04:51"
   },
   {
-    "id": "odia-27",
+    "id": "odia-31",
     "title": "Malo Hun Hun Malo",
     "artist": "Akshaya Mohanty",
     "year": 1980,
@@ -312,7 +358,7 @@ export const SONGS: Song[] = [
     "duration": "03:04"
   },
   {
-    "id": "odia-28",
+    "id": "odia-32",
     "title": "Mo Akhira Kete Katha",
     "artist": "Pranab Patnaik",
     "year": 1981,
@@ -323,7 +369,7 @@ export const SONGS: Song[] = [
     "duration": "03:08"
   },
   {
-    "id": "odia-29",
+    "id": "odia-33",
     "title": "Rupa Hoithiba Labanya Bati",
     "artist": "Chitta Jena",
     "year": 1985,
@@ -334,7 +380,7 @@ export const SONGS: Song[] = [
     "duration": "03:55"
   },
   {
-    "id": "odia-30",
+    "id": "odia-34",
     "title": "Kathatie Kahun Kathatie Kahun",
     "artist": "Trupti Das & Gita Pattnaik",
     "year": 1978,
@@ -345,7 +391,7 @@ export const SONGS: Song[] = [
     "duration": "04:39"
   },
   {
-    "id": "odia-31",
+    "id": "odia-35",
     "title": "Aaji Akashe Ki Ranga Laagila",
     "artist": "Nirmala Mishra",
     "year": 1960,
@@ -356,7 +402,7 @@ export const SONGS: Song[] = [
     "duration": "02:57"
   },
   {
-    "id": "odia-32",
+    "id": "odia-36",
     "title": "Mun Paradeshi Chadhei",
     "artist": "Akshaya Mohanty",
     "year": 1990,
@@ -367,7 +413,7 @@ export const SONGS: Song[] = [
     "duration": "03:58"
   },
   {
-    "id": "odia-33",
+    "id": "odia-37",
     "title": "Kamala Desha Raja Kumara",
     "artist": "Prafulla Kar",
     "year": 1979,
@@ -378,7 +424,7 @@ export const SONGS: Song[] = [
     "duration": "03:15"
   },
   {
-    "id": "odia-34",
+    "id": "odia-38",
     "title": "Ei Amari Gaan",
     "artist": "Sikandar Alam & Nirmala Mishra",
     "year": 1970,
@@ -389,7 +435,7 @@ export const SONGS: Song[] = [
     "duration": "03:53"
   },
   {
-    "id": "odia-35",
+    "id": "odia-39",
     "title": "Nadira Nama Alasa Kanya",
     "artist": "Akshaya Mohanty",
     "year": 1982,
@@ -400,7 +446,7 @@ export const SONGS: Song[] = [
     "duration": "03:12"
   },
   {
-    "id": "odia-36",
+    "id": "odia-40",
     "title": "Sapana Bilasi",
     "artist": "Pranab Patnaik",
     "year": 1984,
@@ -411,7 +457,7 @@ export const SONGS: Song[] = [
     "duration": "04:45"
   },
   {
-    "id": "odia-37",
+    "id": "odia-41",
     "title": "Rakata Talamala",
     "artist": "Akshaya Mohanty",
     "year": 1965,
@@ -422,7 +468,7 @@ export const SONGS: Song[] = [
     "duration": "03:40"
   },
   {
-    "id": "odia-38",
+    "id": "odia-42",
     "title": "Chupi Chupi Gori Kane",
     "artist": "Akshaya Mohanty & Trupti Das",
     "year": 1987,
@@ -433,7 +479,7 @@ export const SONGS: Song[] = [
     "duration": "09:01"
   },
   {
-    "id": "odia-39",
+    "id": "odia-43",
     "title": "Jaha Mu Khojichhi Taha Mu Paichhi",
     "artist": "Pranab Patnaik",
     "year": 1983,
@@ -444,7 +490,7 @@ export const SONGS: Song[] = [
     "duration": "04:11"
   },
   {
-    "id": "odia-40",
+    "id": "odia-44",
     "title": "Phur Kina Udi Gala Bani (Original)",
     "artist": "Trupti Das",
     "year": 1975,
@@ -455,7 +501,7 @@ export const SONGS: Song[] = [
     "duration": "02:56"
   },
   {
-    "id": "odia-41",
+    "id": "odia-45",
     "title": "Mo Sange Lagena Re",
     "artist": "Akshaya Mohanty",
     "year": 1985,
@@ -466,7 +512,7 @@ export const SONGS: Song[] = [
     "duration": "06:46"
   },
   {
-    "id": "odia-42",
+    "id": "odia-46",
     "title": "Abhimanini Ye Amania Dheu",
     "artist": "Akshaya Mohanty",
     "year": 1986,
@@ -477,7 +523,7 @@ export const SONGS: Song[] = [
     "duration": "05:04"
   },
   {
-    "id": "odia-43",
+    "id": "odia-47",
     "title": "Arundhati Theme Song",
     "artist": "Pranab Patnaik",
     "year": 1967,
@@ -488,7 +534,7 @@ export const SONGS: Song[] = [
     "duration": "03:25"
   },
   {
-    "id": "odia-44",
+    "id": "odia-48",
     "title": "Kahala Tu Kaha Gori",
     "artist": "Akshaya Mohanty",
     "year": 1984,
@@ -499,7 +545,7 @@ export const SONGS: Song[] = [
     "duration": "02:44"
   },
   {
-    "id": "odia-45",
+    "id": "odia-49",
     "title": "Naali Naali Ei Krushnachuda Sate",
     "artist": "Raghunath Panigrahi",
     "year": 1978,
@@ -510,7 +556,7 @@ export const SONGS: Song[] = [
     "duration": "03:17"
   },
   {
-    "id": "odia-46",
+    "id": "odia-50",
     "title": "Dhali Dia Sara",
     "artist": "Chitta Jena",
     "year": 1983,
@@ -521,7 +567,7 @@ export const SONGS: Song[] = [
     "duration": "04:18"
   },
   {
-    "id": "odia-47",
+    "id": "odia-51",
     "title": "Dheu Dheuka Pahada Tale",
     "artist": "Akshaya Mohanty",
     "year": 1982,
@@ -532,7 +578,7 @@ export const SONGS: Song[] = [
     "duration": "03:05"
   },
   {
-    "id": "odia-48",
+    "id": "odia-52",
     "title": "Bhasa Megha Muje Bhasi Jae Dure",
     "artist": "Pranab Patnaik",
     "year": 1985,
@@ -543,7 +589,7 @@ export const SONGS: Song[] = [
     "duration": "03:12"
   },
   {
-    "id": "odia-49",
+    "id": "odia-53",
     "title": "Adine Malli Mahaka",
     "artist": "Akshaya Mohanty & Trupti Das",
     "year": 1970,
@@ -554,7 +600,7 @@ export const SONGS: Song[] = [
     "duration": "04:38"
   },
   {
-    "id": "odia-50",
+    "id": "odia-54",
     "title": "Ei Lagane Mo Mana Bujhena",
     "artist": "Pranab Patnaik",
     "year": 1981,
@@ -565,7 +611,7 @@ export const SONGS: Song[] = [
     "duration": "02:38"
   },
   {
-    "id": "odia-51",
+    "id": "odia-55",
     "title": "Bhula Mana Re Tora Kehi Nuhen",
     "artist": "Akshaya Mohanty",
     "year": 1984,
@@ -576,7 +622,7 @@ export const SONGS: Song[] = [
     "duration": "03:10"
   },
   {
-    "id": "odia-52",
+    "id": "odia-56",
     "title": "Ai Lagane Mo Mana Bujhena (Duet)",
     "artist": "Pranab Patnaik & Nirmala Mishra",
     "year": 1981,

@@ -147,6 +147,11 @@ export default function PlaylistPanel({
                         }`}>
                           {song.language}
                         </span>
+                        {song.badge && (
+                          <span className="text-[9px] px-1.5 py-0.5 rounded font-mono font-bold bg-[#ffe0ec] text-[#b81d5b] border border-[#f5a4c5] shrink-0 shadow-sm">
+                            {song.badge}
+                          </span>
+                        )}
                       </div>
                       <p className="text-[11px] sm:text-xs text-[#6b5545] font-serif truncate mt-0.5">
                         {song.artist} {song.album ? `• ${song.album}` : ''}
