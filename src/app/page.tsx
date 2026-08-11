@@ -226,7 +226,7 @@ export default function Home() {
       </div>
 
       {/* 3. AMBIENT OVERLAY (Top-Left Title, Top-Right Timestamp, Floating Notes) */}
-      <AmbientOverlay reducedMotion={reducedMotion} />
+      <AmbientOverlay reducedMotion={reducedMotion} isFullscreen={isFullscreen} />
 
       {/* 4. TOP NAVIGATION CONTROL BAR */}
       <Navigation

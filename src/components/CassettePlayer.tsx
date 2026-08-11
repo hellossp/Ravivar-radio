@@ -45,6 +45,12 @@ export default function CassettePlayer({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Calculate dynamic reel tape pack radii based on playback progress
+  const progressRatio = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
+  // Left reel starts full (radius ~46), shrinks to ~32. Right reel starts at ~32, grows to ~46
+  const leftTapeRadius = 46 - progressRatio * 14;
+  const rightTapeRadius = 32 + progressRatio * 14;
+
   return (
     <div className="w-full max-w-[440px] mx-auto md:mx-0 select-none perspective-[1000px]">
       {/* Outer 3D Teak Wooden Cabinet Container */}
@@ -70,19 +76,15 @@ export default function CassettePlayer({
         }}
       >
         {/* 3D Brass Corner Plates with Screws */}
-        {/* Top-Left Brass Corner */}
         <div className="absolute top-1 left-1 w-3.5 h-3.5 bg-gradient-to-br from-[#d4af37] via-[#997a20] to-[#59440c] border border-[#3d2e08] rounded-sm shadow-md flex items-center justify-center">
           <div className="w-1.5 h-0.5 bg-[#261b05] rotate-45" />
         </div>
-        {/* Top-Right Brass Corner */}
         <div className="absolute top-1 right-1 w-3.5 h-3.5 bg-gradient-to-br from-[#d4af37] via-[#997a20] to-[#59440c] border border-[#3d2e08] rounded-sm shadow-md flex items-center justify-center">
           <div className="w-1.5 h-0.5 bg-[#261b05] -rotate-45" />
         </div>
-        {/* Bottom-Left Brass Corner */}
         <div className="absolute bottom-1 left-1 w-3.5 h-3.5 bg-gradient-to-br from-[#d4af37] via-[#997a20] to-[#59440c] border border-[#3d2e08] rounded-sm shadow-md flex items-center justify-center">
           <div className="w-1.5 h-0.5 bg-[#261b05] rotate-12" />
         </div>
-        {/* Bottom-Right Brass Corner */}
         <div className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-gradient-to-br from-[#d4af37] via-[#997a20] to-[#59440c] border border-[#3d2e08] rounded-sm shadow-md flex items-center justify-center">
           <div className="w-1.5 h-0.5 bg-[#261b05] -rotate-30" />
         </div>
@@ -119,10 +121,8 @@ export default function CassettePlayer({
 
           {/* Recessed 3D Analog Radio Frequency Scale (88-108 MHz) */}
           <div className="relative h-5.5 bg-[#090604] border-2 border-[#362317] rounded mb-2 overflow-hidden flex items-center px-2.5 shadow-[inset_0_3px_6px_rgba(0,0,0,0.95)]">
-            {/* Glass Gloss Surface */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-transparent to-black/40 pointer-events-none z-10" />
 
-            {/* Frequencies text scale */}
             <div className="w-full flex justify-between text-[9px] text-[#a88a6d] font-mono font-bold select-none z-0">
               <span>88</span>
               <span>92</span>
@@ -155,20 +155,35 @@ export default function CassettePlayer({
             />
 
             <div className="relative z-10 flex items-center justify-between gap-2">
-              {/* 3D Left Cassette Tape Reel */}
+              {/* 3D Left Cassette Tape Reel (Spinning Textured Hub) */}
               <div className="relative w-11 h-11 rounded-full border-2 border-[#4d3321] bg-gradient-to-b from-[#1c110a] to-[#0a0503] flex items-center justify-center shadow-[inset_0_3px_6px_rgba(0,0,0,0.9),0_2px_3px_rgba(255,255,255,0.05)]">
-                <div 
-                  className={`w-8.5 h-8.5 rounded-full border border-[#b89270]/50 flex items-center justify-center transition-transform ${
-                    isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''
-                  }`}
-                  style={{
-                    backgroundImage: 'radial-gradient(circle, #382417 30%, #120a06 70%)'
-                  }}
+                <svg 
+                  className={`w-10 h-10 drop-shadow-md ${isPlaying ? 'animate-[spin_2.8s_linear_infinite]' : ''}`} 
+                  viewBox="0 0 100 100"
                 >
-                  <div className="w-6 h-6 rounded-full border-2 border-[#f59e0b]/60 flex items-center justify-center shadow-md">
-                    <div className="w-2.5 h-2.5 bg-[#523725] rounded-full border border-black shadow-inner" />
-                  </div>
-                </div>
+                  {/* Dynamic Dark Brown Magnetic Tape Pack */}
+                  <circle cx="50" cy="50" r={leftTapeRadius} fill="#1a0e08" stroke="#4a2e1b" strokeWidth="1.5" />
+                  <circle cx="50" cy="50" r={leftTapeRadius - 3} fill="#29160c" opacity="0.6" />
+                  
+                  {/* White Plastic Cassette Tape Hub Ring */}
+                  <circle cx="50" cy="50" r="26" fill="#fdfbf7" stroke="#3a2517" strokeWidth="2.5" />
+                  
+                  {/* 3 Large Drive Notch Holes */}
+                  <circle cx="50" cy="33" r="4.5" fill="#120a06" />
+                  <circle cx="35" cy="59" r="4.5" fill="#120a06" />
+                  <circle cx="65" cy="59" r="4.5" fill="#120a06" />
+                  
+                  {/* 6 Drive Teeth Spokes */}
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" />
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" transform="rotate(60 50 50)" />
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" transform="rotate(120 50 50)" />
+
+                  {/* Red Orientation Lock Marker (Makes 3D Rotation Visually Distinct!) */}
+                  <circle cx="50" cy="28.5" r="3.2" fill="#ff3b30" stroke="#b31208" strokeWidth="0.8" />
+                  
+                  {/* Center Brass Spindle Hole */}
+                  <circle cx="50" cy="50" r="10" fill="#0d0805" stroke="#f59e0b" strokeWidth="2" />
+                </svg>
               </div>
 
               {/* Middle Song LCD Screen & Counter */}
@@ -193,20 +208,35 @@ export default function CassettePlayer({
                 </div>
               </div>
 
-              {/* 3D Right Cassette Tape Reel */}
+              {/* 3D Right Cassette Tape Reel (Spinning Textured Hub) */}
               <div className="relative w-11 h-11 rounded-full border-2 border-[#4d3321] bg-gradient-to-b from-[#1c110a] to-[#0a0503] flex items-center justify-center shadow-[inset_0_3px_6px_rgba(0,0,0,0.9),0_2px_3px_rgba(255,255,255,0.05)]">
-                <div 
-                  className={`w-8.5 h-8.5 rounded-full border border-[#b89270]/50 flex items-center justify-center transition-transform ${
-                    isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''
-                  }`}
-                  style={{
-                    backgroundImage: 'radial-gradient(circle, #382417 30%, #120a06 70%)'
-                  }}
+                <svg 
+                  className={`w-10 h-10 drop-shadow-md ${isPlaying ? 'animate-[spin_2.8s_linear_infinite]' : ''}`} 
+                  viewBox="0 0 100 100"
                 >
-                  <div className="w-6 h-6 rounded-full border-2 border-[#f59e0b]/60 flex items-center justify-center shadow-md">
-                    <div className="w-2.5 h-2.5 bg-[#523725] rounded-full border border-black shadow-inner" />
-                  </div>
-                </div>
+                  {/* Dynamic Dark Brown Magnetic Tape Pack */}
+                  <circle cx="50" cy="50" r={rightTapeRadius} fill="#1a0e08" stroke="#4a2e1b" strokeWidth="1.5" />
+                  <circle cx="50" cy="50" r={rightTapeRadius - 3} fill="#29160c" opacity="0.6" />
+                  
+                  {/* White Plastic Cassette Tape Hub Ring */}
+                  <circle cx="50" cy="50" r="26" fill="#fdfbf7" stroke="#3a2517" strokeWidth="2.5" />
+                  
+                  {/* 3 Large Drive Notch Holes */}
+                  <circle cx="50" cy="33" r="4.5" fill="#120a06" />
+                  <circle cx="35" cy="59" r="4.5" fill="#120a06" />
+                  <circle cx="65" cy="59" r="4.5" fill="#120a06" />
+                  
+                  {/* 6 Drive Teeth Spokes */}
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" />
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" transform="rotate(60 50 50)" />
+                  <rect x="47.5" y="27" width="5" height="46" rx="1.5" fill="#2e1b10" transform="rotate(120 50 50)" />
+
+                  {/* Red Orientation Lock Marker (Makes 3D Rotation Visually Distinct!) */}
+                  <circle cx="50" cy="28.5" r="3.2" fill="#ff3b30" stroke="#b31208" strokeWidth="0.8" />
+                  
+                  {/* Center Brass Spindle Hole */}
+                  <circle cx="50" cy="50" r="10" fill="#0d0805" stroke="#f59e0b" strokeWidth="2" />
+                </svg>
               </div>
             </div>
 
