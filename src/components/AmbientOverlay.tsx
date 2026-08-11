@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { ExternalLink } from 'lucide-react';
 
 interface AmbientOverlayProps {
   reducedMotion?: boolean;
@@ -90,6 +91,20 @@ export default function AmbientOverlay({ reducedMotion = false }: AmbientOverlay
             <span>10:42 AM</span>
           </div>
         </div>
+      </div>
+
+      {/* BOTTOM-RIGHT ATTRIBUTION STAMP */}
+      <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-8 z-30 pointer-events-auto">
+        <a
+          href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 px-2.5 py-1 bg-[#17120e]/85 hover:bg-[#8c2318] border border-[#8a6e55]/60 hover:border-amber-400 text-amber-200/90 hover:text-white rounded text-[10px] sm:text-xs font-mono tracking-wider transition-all shadow-lg backdrop-blur-sm"
+          title="Developed by Sitansu Sekhar"
+        >
+          <span>Dev: Sitansu Sekhar</span>
+          <ExternalLink className="w-3 h-3 text-amber-400 shrink-0" />
+        </a>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Search, Music, Play, Disc } from 'lucide-react';
+import { X, Search, Music, Play, Disc, PlusCircle, ExternalLink } from 'lucide-react';
 import { Song, CATEGORIES, CategoryType } from '@/data/songs';
 
 interface PlaylistPanelProps {
@@ -14,6 +14,7 @@ interface PlaylistPanelProps {
   onSelectCategory: (cat: CategoryType) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  onOpenCustomTrack?: () => void;
 }
 
 export default function PlaylistPanel({
@@ -27,6 +28,7 @@ export default function PlaylistPanel({
   onSelectCategory,
   searchQuery,
   onSearchChange,
+  onOpenCustomTrack,
 }: PlaylistPanelProps) {
   if (!isOpen) return null;
 
@@ -61,16 +63,30 @@ export default function PlaylistPanel({
             </p>
           </div>
 
-          {/* Search Box */}
-          <div className="mt-2.5 sm:mt-3.5 relative">
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8c7355]" />
-            <input
-              type="text"
-              placeholder="Search song, artist, movie..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-8 sm:pl-9 pr-3 sm:pr-4 py-1 sm:py-1.5 text-xs sm:text-sm bg-[#faf4e6] border border-[#a89073] rounded font-mono text-[#2c221e] focus:outline-none focus:border-[#8c2318] placeholder-[#a89073]"
-            />
+          {/* Search Box & Make Own Track Button */}
+          <div className="mt-2.5 sm:mt-3.5 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+            <div className="relative flex-1">
+              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8c7355]" />
+              <input
+                type="text"
+                placeholder="Search song, artist, movie..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full pl-8 sm:pl-9 pr-3 sm:pr-4 py-1 sm:py-1.5 text-xs sm:text-sm bg-[#faf4e6] border border-[#a89073] rounded font-mono text-[#2c221e] focus:outline-none focus:border-[#8c2318] placeholder-[#a89073]"
+              />
+            </div>
+
+            {/* Make Your Own Track Feature Button */}
+            {onOpenCustomTrack && (
+              <button
+                onClick={onOpenCustomTrack}
+                className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#8c2318] hover:bg-[#6e1910] text-[#fff8ea] text-xs font-mono font-bold tracking-wider rounded border border-[#69180f] shadow-sm transition-all shrink-0 active:scale-95"
+                title="Create custom playlist track"
+              >
+                <PlusCircle className="w-3.5 h-3.5 text-amber-300" />
+                <span>+ MAKE YOUR OWN TAPE</span>
+              </button>
+            )}
           </div>
 
           {/* Categories Tabs - Horizontally Scrollable on Mobile */}
@@ -161,7 +177,15 @@ export default function PlaylistPanel({
         {/* Vintage Footer */}
         <div className="border-t border-[#8c7355] px-3 sm:px-4 py-2 bg-[#eae0c8] flex items-center justify-between text-[10px] sm:text-[11px] text-[#6b5545] font-mono shrink-0">
           <span>TOTAL: {songs.length} TRACKS</span>
-          <span className="truncate">SELECT ANY SONG TO PLAY</span>
+          <a
+            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[#8c2318] hover:underline font-bold transition-colors"
+          >
+            <span>Dev: Sitansu Sekhar</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import AboutPanel from '@/components/AboutPanel';
 import LoadingScreen from '@/components/LoadingScreen';
 import Navigation from '@/components/Navigation';
 import ShortcutsModal from '@/components/ShortcutsModal';
+import CustomTrackModal from '@/components/CustomTrackModal';
 import { playCassetteClick, playRadioDialClick, playStaticBurst } from '@/utils/audioSynth';
 
 export default function Home() {
@@ -31,6 +32,7 @@ export default function Home() {
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+  const [isCustomTrackOpen, setIsCustomTrackOpen] = useState(false);
   const [soundFxEnabled, setSoundFxEnabled] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -299,6 +301,10 @@ export default function Home() {
         }}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        onOpenCustomTrack={() => {
+          if (soundFxEnabled) playCassetteClick();
+          setIsCustomTrackOpen(true);
+        }}
       />
 
       <AboutPanel
@@ -309,6 +315,11 @@ export default function Home() {
       <ShortcutsModal
         isOpen={isShortcutsOpen}
         onClose={() => setIsShortcutsOpen(false)}
+      />
+
+      <CustomTrackModal
+        isOpen={isCustomTrackOpen}
+        onClose={() => setIsCustomTrackOpen(false)}
       />
     </main>
   );

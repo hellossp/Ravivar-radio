@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Heart } from 'lucide-react';
+import { X, Heart, ExternalLink } from 'lucide-react';
 
 interface AboutPanelProps {
   isOpen: boolean;
@@ -55,12 +55,18 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
           </p>
         </div>
 
-        {/* Footer info */}
-        <div className="mt-5 sm:mt-6 pt-3 sm:pt-4 border-t border-[#a89278] flex items-center justify-between text-[10px] sm:text-xs text-[#7a6452] font-mono">
+        {/* Footer info & Developer Attribution */}
+        <div className="mt-5 sm:mt-6 pt-3 sm:pt-4 border-t border-[#a89278] flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] sm:text-xs text-[#7a6452] font-mono">
           <span>SUNDAY MORNING • 1997</span>
-          <span className="flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-red-600 fill-current" /> for Odisha
-          </span>
+          <a
+            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[#8c2318] hover:underline font-bold transition-colors"
+          >
+            <span>Developed by Sitansu Sekhar</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
     </div>
