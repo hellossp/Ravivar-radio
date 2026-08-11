@@ -1,6 +1,6 @@
 'use client';
 
-import { List, Info, Radio, Keyboard, Maximize2, Minimize2, Coffee } from 'lucide-react';
+import { List, Info, Radio, Keyboard, Maximize2, Minimize2, Coffee, CloudRain } from 'lucide-react';
 
 interface NavigationProps {
   onOpenPlaylist: () => void;
@@ -9,6 +9,8 @@ interface NavigationProps {
   onToggleSoundFx: () => void;
   isAmbianceEnabled: boolean;
   onToggleAmbiance: () => void;
+  isRainEnabled: boolean;
+  onToggleRain: () => void;
   onOpenShortcuts: () => void;
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
@@ -21,6 +23,8 @@ export default function Navigation({
   onToggleSoundFx,
   isAmbianceEnabled,
   onToggleAmbiance,
+  isRainEnabled,
+  onToggleRain,
   onOpenShortcuts,
   isFullscreen,
   onToggleFullscreen,
@@ -52,6 +56,20 @@ export default function Navigation({
       >
         <Coffee className="w-3.5 h-3.5 shrink-0" />
         <span className="whitespace-nowrap">{isAmbianceEnabled ? 'AMBIANCE ON' : 'AMBIANCE OFF'}</span>
+      </button>
+
+      {/* Monsoon Rain Window Overlay Toggle */}
+      <button
+        onClick={onToggleRain}
+        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+          isRainEnabled
+            ? 'bg-[#382c24] border-blue-400 text-blue-300 font-bold shadow-[0_0_8px_rgba(96,165,250,0.4)]'
+            : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
+        }`}
+        title="Toggle 90s Monsoon Rainy Sunday Window"
+      >
+        <CloudRain className="w-3.5 h-3.5 shrink-0" />
+        <span className="whitespace-nowrap">{isRainEnabled ? 'RAIN ON' : 'RAIN OFF'}</span>
       </button>
 
       {/* Toggle Audio Static / Tactile FX */}

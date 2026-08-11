@@ -12,6 +12,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Navigation from '@/components/Navigation';
 import ShortcutsModal from '@/components/ShortcutsModal';
 import CustomTrackModal from '@/components/CustomTrackModal';
+import RainOverlay from '@/components/RainOverlay';
 import ToastContainer, { ToastMessage } from '@/components/ToastContainer';
 import { playCassetteClick, playRadioDialClick, playStaticBurst } from '@/utils/audioSynth';
 import { startBarberShopAmbiance, stopBarberShopAmbiance } from '@/utils/ambianceAudio';
@@ -31,6 +32,7 @@ export default function Home() {
   const [seekTime, setSeekTime] = useState<number | null>(null);
   const [repeatMode, setRepeatMode] = useState<'OFF' | 'ALL' | 'ONE'>('OFF');
   const [isAmbianceEnabled, setIsAmbianceEnabled] = useState(false);
+  const [isRainEnabled, setIsRainEnabled] = useState(false);
   
   // UI Overlays & Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -139,40 +141,47 @@ export default function Home() {
 
   const handleCycleRepeat = () => {
     if (soundFxEnabled) playRadioDialClick();
-    setRepeatMode((prev) => {
-      const modes: Array<'OFF' | 'ALL' | 'ONE'> = ['OFF', 'ALL', 'ONE'];
-      const nextIdx = (modes.indexOf(prev) + 1) % modes.length;
-      const nextMode = modes[nextIdx];
-      showToast(
-        nextMode === 'ONE'
-          ? "Repeat current track 🔁"
-          : nextMode === 'ALL'
-          ? "Repeat all tracks 🔁"
-          : "Repeat mode off",
-        "info",
-        "PLAYLIST MODE"
-      );
-      return nextMode;
-    });
+    const modes: Array<'OFF' | 'ALL' | 'ONE'> = ['OFF', 'ALL', 'ONE'];
+    const nextIdx = (modes.indexOf(repeatMode) + 1) % modes.length;
+    const nextMode = modes[nextIdx];
+    setRepeatMode(nextMode);
+    showToast(
+      nextMode === 'ONE'
+        ? "Repeat current track 🔁"
+        : nextMode === 'ALL'
+        ? "Repeat all tracks 🔁"
+        : "Repeat mode off",
+      "info",
+      "PLAYLIST MODE"
+    );
   };
 
   const handleToggleAmbiance = () => {
     if (soundFxEnabled) playRadioDialClick();
-    setIsAmbianceEnabled((prev) => {
-      const nextState = !prev;
-      if (nextState) {
-        startBarberShopAmbiance();
-        showToast(
-          "Authentic 1990s barber shop scissor snaps & relaxing head massage ASMR active in background ✂️💆‍♂️",
-          "success",
-          "SALON ASMR AMBIANCE"
-        );
-      } else {
-        stopBarberShopAmbiance();
-        showToast("Salon ASMR Ambiance OFF ✂️", "info", "ATMOSPHERE");
-      }
-      return nextState;
-    });
+    const nextState = !isAmbianceEnabled;
+    setIsAmbianceEnabled(nextState);
+    if (nextState) {
+      startBarberShopAmbiance();
+      showToast(
+        "Authentic 1990s barber shop scissor snaps & relaxing head massage ASMR active in background ✂️💆‍♂️",
+        "success",
+        "SALON ASMR AMBIANCE"
+      );
+    } else {
+      stopBarberShopAmbiance();
+      showToast("Salon ASMR Ambiance OFF ✂️", "info", "ATMOSPHERE");
+    }
+  };
+
+  const handleToggleRain = () => {
+    if (soundFxEnabled) playRadioDialClick();
+    const nextState = !isRainEnabled;
+    setIsRainEnabled(nextState);
+    showToast(
+      nextState ? "90s Monsoon Rainy Sunday Window active 🌧️" : "Rain Window OFF",
+      "info",
+      "WEATHER"
+    );
   };
 
   const handleNextSong = () => {
@@ -296,6 +305,9 @@ export default function Home() {
         />
       </div>
 
+      {/* 2B. MONSOON RAIN WINDOW OVERLAY */}
+      <RainOverlay enabled={isRainEnabled} />
+
       {/* 3. AMBIENT OVERLAY (Top-Left Title, Top-Right Timestamp, Floating Notes) */}
       <AmbientOverlay reducedMotion={reducedMotion} isFullscreen={isFullscreen} />
 
@@ -316,6 +328,8 @@ export default function Home() {
         }}
         isAmbianceEnabled={isAmbianceEnabled}
         onToggleAmbiance={handleToggleAmbiance}
+        isRainEnabled={isRainEnabled}
+        onToggleRain={handleToggleRain}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
         isFullscreen={isFullscreen}
         onToggleFullscreen={handleToggleFullscreen}
