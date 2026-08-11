@@ -81,7 +81,7 @@ export default function CustomTrackModal({ isOpen, onClose }: CustomTrackModalPr
         <div className="pt-3 border-t border-[#a89278] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-mono text-[#594639]">
           <span className="text-[11px]">RABIBARA RADIO • 1997</span>
           <a
-            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=dnoyYmdub3F0Yzds"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 px-2.5 py-1 bg-[#382c24] hover:bg-[#8c2318] text-[#ffe8cb] hover:text-white rounded border border-[#6b5545] text-[11px] font-bold transition-all"

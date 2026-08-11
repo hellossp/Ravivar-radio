@@ -59,7 +59,7 @@ export default function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
         <div className="mt-5 sm:mt-6 pt-3 sm:pt-4 border-t border-[#a89278] flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] sm:text-xs text-[#7a6452] font-mono">
           <span>SUNDAY MORNING • 1997</span>
           <a
-            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=dnoyYmdub3F0Yzds"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-[#8c2318] hover:underline font-bold transition-colors"

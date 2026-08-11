@@ -178,7 +178,7 @@ export default function PlaylistPanel({
         <div className="border-t border-[#8c7355] px-3 sm:px-4 py-2 bg-[#eae0c8] flex items-center justify-between text-[10px] sm:text-[11px] text-[#6b5545] font-mono shrink-0">
           <span>TOTAL: {songs.length} TRACKS</span>
           <a
-            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=aWkyNjBmdHQyZ285"
+            href="https://www.instagram.com/_sitansu_sekhar__ssp?igsh=dnoyYmdub3F0Yzds"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-[#8c2318] hover:underline font-bold transition-colors"
