@@ -14,6 +14,7 @@ import ShortcutsModal from '@/components/ShortcutsModal';
 import CustomTrackModal from '@/components/CustomTrackModal';
 import ToastContainer, { ToastMessage } from '@/components/ToastContainer';
 import { playCassetteClick, playRadioDialClick, playStaticBurst } from '@/utils/audioSynth';
+import { startBarberShopAmbiance, stopBarberShopAmbiance } from '@/utils/ambianceAudio';
 
 export default function Home() {
   // App States
@@ -28,6 +29,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   
   const [seekTime, setSeekTime] = useState<number | null>(null);
+  const [repeatMode, setRepeatMode] = useState<'OFF' | 'ALL' | 'ONE'>('OFF');
+  const [isAmbianceEnabled, setIsAmbianceEnabled] = useState(false);
   
   // UI Overlays & Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -97,7 +100,6 @@ export default function Home() {
   // Filtered Songs List
   const filteredSongs = useMemo(() => {
     return SONGS.filter((song) => {
-      // Category filter
       if (selectedCategory !== 'ALL') {
         if (selectedCategory === 'ODIA' && song.language !== 'ODIA') return false;
         if (selectedCategory === 'HINDI' && song.language !== 'HINDI') return false;
@@ -105,7 +107,6 @@ export default function Home() {
         if (selectedCategory === 'SAD' && song.category !== 'SAD') return false;
         if (selectedCategory === '90s CLASSICS' && song.category !== '90s CLASSICS') return false;
       }
-      // Search Query filter
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
         return (
@@ -136,6 +137,44 @@ export default function Home() {
     setIsPlaying((prev) => !prev);
   };
 
+  const handleCycleRepeat = () => {
+    if (soundFxEnabled) playRadioDialClick();
+    setRepeatMode((prev) => {
+      const modes: Array<'OFF' | 'ALL' | 'ONE'> = ['OFF', 'ALL', 'ONE'];
+      const nextIdx = (modes.indexOf(prev) + 1) % modes.length;
+      const nextMode = modes[nextIdx];
+      showToast(
+        nextMode === 'ONE'
+          ? "Repeat current track 🔁"
+          : nextMode === 'ALL'
+          ? "Repeat all tracks 🔁"
+          : "Repeat mode off",
+        "info",
+        "PLAYLIST MODE"
+      );
+      return nextMode;
+    });
+  };
+
+  const handleToggleAmbiance = () => {
+    if (soundFxEnabled) playRadioDialClick();
+    setIsAmbianceEnabled((prev) => {
+      const nextState = !prev;
+      if (nextState) {
+        startBarberShopAmbiance();
+        showToast(
+          "Authentic 1990s barber shop scissor snaps & relaxing head massage ASMR active in background ✂️💆‍♂️",
+          "success",
+          "SALON ASMR AMBIANCE"
+        );
+      } else {
+        stopBarberShopAmbiance();
+        showToast("Salon ASMR Ambiance OFF ✂️", "info", "ATMOSPHERE");
+      }
+      return nextState;
+    });
+  };
+
   const handleNextSong = () => {
     if (soundFxEnabled) playRadioDialClick();
     const nextIdx = (currentIndex + 1) % activeSongs.length;
@@ -147,6 +186,17 @@ export default function Home() {
     if (soundFxEnabled) playRadioDialClick();
     const prevIdx = (currentIndex - 1 + activeSongs.length) % activeSongs.length;
     setCurrentSong(activeSongs[prevIdx]);
+    setIsPlaying(true);
+  };
+
+  const handleEnded = () => {
+    if (repeatMode === 'ONE') {
+      setSeekTime(0);
+      setIsPlaying(true);
+      return;
+    }
+    const nextIdx = (currentIndex + 1) % activeSongs.length;
+    setCurrentSong(activeSongs[nextIdx]);
     setIsPlaying(true);
   };
 
@@ -175,7 +225,6 @@ export default function Home() {
   // Keyboard Shortcuts Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger shortcuts if user is typing in search input
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
@@ -192,6 +241,10 @@ export default function Home() {
         case 'ArrowLeft':
           e.preventDefault();
           handlePrevSong();
+          break;
+        case 'KeyR':
+          e.preventDefault();
+          handleCycleRepeat();
           break;
         case 'KeyM':
           e.preventDefault();
@@ -261,6 +314,8 @@ export default function Home() {
           if (soundFxEnabled) playStaticBurst();
           setSoundFxEnabled((prev) => !prev);
         }}
+        isAmbianceEnabled={isAmbianceEnabled}
+        onToggleAmbiance={handleToggleAmbiance}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
         isFullscreen={isFullscreen}
         onToggleFullscreen={handleToggleFullscreen}
@@ -287,6 +342,8 @@ export default function Home() {
           }}
           currentIndex={currentIndex}
           totalSongs={SONGS.length}
+          repeatMode={repeatMode}
+          onCycleRepeat={handleCycleRepeat}
         />
       </div>
 
@@ -297,7 +354,7 @@ export default function Home() {
         volume={volume}
         isMuted={isMuted}
         seekTime={seekTime}
-        onEnded={handleNextSong}
+        onEnded={handleEnded}
         onTimeUpdate={setCurrentTime}
         onDuration={setDuration}
         onPlayingStateChange={setIsPlaying}

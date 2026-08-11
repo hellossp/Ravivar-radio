@@ -1,12 +1,14 @@
 'use client';
 
-import { List, Info, Radio, Keyboard, Maximize2, Minimize2 } from 'lucide-react';
+import { List, Info, Radio, Keyboard, Maximize2, Minimize2, Coffee } from 'lucide-react';
 
 interface NavigationProps {
   onOpenPlaylist: () => void;
   onOpenAbout: () => void;
   soundFxEnabled: boolean;
   onToggleSoundFx: () => void;
+  isAmbianceEnabled: boolean;
+  onToggleAmbiance: () => void;
   onOpenShortcuts: () => void;
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
@@ -17,6 +19,8 @@ export default function Navigation({
   onOpenAbout,
   soundFxEnabled,
   onToggleSoundFx,
+  isAmbianceEnabled,
+  onToggleAmbiance,
   onOpenShortcuts,
   isFullscreen,
   onToggleFullscreen,
@@ -34,6 +38,20 @@ export default function Navigation({
       >
         <List className="w-3.5 h-3.5 text-[#d97724] shrink-0" />
         <span className="whitespace-nowrap">PLAYLIST</span>
+      </button>
+
+      {/* Barber Shop Scissors & Massage ASMR Ambiance Toggle */}
+      <button
+        onClick={onToggleAmbiance}
+        className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-mono transition-colors border whitespace-nowrap ${
+          isAmbianceEnabled
+            ? 'bg-[#382c24] border-amber-500 text-amber-400 font-bold shadow-[0_0_8px_rgba(245,158,11,0.4)]'
+            : 'bg-[#261d17] border-[#423328] text-[#8c735f]'
+        }`}
+        title="Toggle Barber Shop Scissors & Massage ASMR Ambiance"
+      >
+        <Coffee className="w-3.5 h-3.5 shrink-0" />
+        <span className="whitespace-nowrap">{isAmbianceEnabled ? 'AMBIANCE ON' : 'AMBIANCE OFF'}</span>
       </button>
 
       {/* Toggle Audio Static / Tactile FX */}
